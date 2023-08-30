@@ -22,9 +22,8 @@ loom {
     splitEnvironmentSourceSets()
 
 	mods {
-		"modid" {
+		"guihaul" {
 			sourceSet sourceSets.main
-			sourceSet sourceSets.client
 		}
 	}
 
