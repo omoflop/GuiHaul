@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"dev.omo.guihaul.GuiHaulMod"
+		],
+		"prelaunch": [
+			"dev.omo.guihaul.GuiHaulPreLaunch"
 		]
 	},
 	"mixins": [
