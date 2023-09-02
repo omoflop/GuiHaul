@@ -59,4 +59,8 @@ public final class HaulableGuis {
     public static Set<Identifier> getSupportedContainers() {
         return lookup.keySet();
     }
+
+    public static Set<CustomizationType> getSupportedCustomizations(Identifier id) {
+        return supportedCustomizationTypesLookup.get(id);
+    }
 }

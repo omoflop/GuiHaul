@@ -5,7 +5,7 @@ import dev.omo.guihaul.data.CustomizationHolder;
 import dev.omo.guihaul.duck.DrawContextAccessor;
 import dev.omo.guihaul.duck.ScreenAccessor;
 import dev.omo.guihaul.duck.SlotAccessor;
-import dev.omo.guihaul.impl.VanillaGuiCustomizations;
+import dev.omo.guihaul.impl.VanillaGuiModifiers;
 import dev.omo.guihaul.impl.customizations.GuiTextureCustomization;
 import dev.omo.guihaul.impl.customizations.SlotCustomization;
 import dev.omo.guihaul.util.GuiAlignment;
@@ -121,7 +121,7 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
     void changeCentering(CallbackInfo ci) {
         CustomizationHolder c = ScreenAccessor.getCustomizations(this);
         if (c == null) return;
-        GuiTextureCustomization gtc = c.get(VanillaGuiCustomizations.guiTexture);
+        GuiTextureCustomization gtc = c.get(VanillaGuiModifiers.guiTexture);
         if (gtc == null || gtc.alignment == GuiAlignment.none) return;
 
 

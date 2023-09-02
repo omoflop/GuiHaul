@@ -1,7 +1,8 @@
 package dev.omo.guihaul.data;
 
-import dev.omo.guihaul.impl.VanillaGuiCustomizations;
+import dev.omo.guihaul.impl.VanillaGuiModifiers;
 import dev.omo.guihaul.impl.customizations.SlotCustomization;
+import dev.omo.guihaul.impl.customizations.SlotsCustomization;
 import net.minecraft.screen.slot.Slot;
 
 import java.util.HashMap;
@@ -10,10 +11,10 @@ public class CustomizationHolder {
     private final HashMap<CustomizationType, Object> all = new HashMap<>();
 
     public SlotCustomization getForSlot(Slot slot) {
-        HashMap<Integer, SlotCustomization> slots = get(VanillaGuiCustomizations.slots);
+        SlotsCustomization slots = get(VanillaGuiModifiers.slots);
         if (slots == null) return null;
 
-        return slots.getOrDefault(slot.id, null);
+        return slots.slots.getOrDefault(slot.id, null);
     }
 
     public <T>T get(CustomizationType cType) {

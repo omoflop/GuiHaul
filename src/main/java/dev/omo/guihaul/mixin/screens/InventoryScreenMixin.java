@@ -5,7 +5,7 @@ import dev.omo.guihaul.data.CustomizationHolder;
 import dev.omo.guihaul.duck.InventoryScreenAccessor;
 import dev.omo.guihaul.duck.ScreenAccessor;
 import dev.omo.guihaul.duck.TexturedButtonWidgetAccessor;
-import dev.omo.guihaul.impl.VanillaGuiCustomizations;
+import dev.omo.guihaul.impl.VanillaGuiModifiers;
 import dev.omo.guihaul.impl.customizations.GuiTextureCustomization;
 import dev.omo.guihaul.impl.customizations.PaperDollCustomization;
 import dev.omo.guihaul.impl.customizations.RecipeBookCustomization;
@@ -44,7 +44,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     private void applyPaperDollCustomization(Args args) {
         CustomizationHolder c = ScreenAccessor.getCustomizations(this);
         if (c == null) return;
-        PaperDollCustomization pdc = c.get(VanillaGuiCustomizations.paperDoll);
+        PaperDollCustomization pdc = c.get(VanillaGuiModifiers.paperDoll);
         if (pdc == null) return;
 
         if (!pdc.enabled) {
@@ -75,7 +75,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
         if (guihaul$recipeBook == null) return;
         CustomizationHolder c = ScreenAccessor.getCustomizations(this);
         if (c == null) return;
-        RecipeBookCustomization rbc = c.get(VanillaGuiCustomizations.recipeBook);
+        RecipeBookCustomization rbc = c.get(VanillaGuiModifiers.recipeBook);
         if (rbc == null) return;
 
         TexturedButtonWidgetAccessor tba = TexturedButtonWidgetAccessor.get(guihaul$recipeBook);
@@ -87,7 +87,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     private void changeRecipeBookUpdatePos(Args args) {
         CustomizationHolder c = ScreenAccessor.getCustomizations(this);
         if (c == null) return;
-        RecipeBookCustomization rbc = c.get(VanillaGuiCustomizations.recipeBook);
+        RecipeBookCustomization rbc = c.get(VanillaGuiModifiers.recipeBook);
         if (rbc == null) return;
 
         args.set(0, rbc.getX(args.get(0)));
@@ -98,7 +98,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     private void changeBackground(DrawContext ctx, Identifier texture, int x, int y, int u, int v, int width, int height) {
         CustomizationHolder c = ScreenAccessor.getCustomizations(this);
         if (c == null) return;
-        GuiTextureCustomization gtc = c.get(VanillaGuiCustomizations.guiTexture);
+        GuiTextureCustomization gtc = c.get(VanillaGuiModifiers.guiTexture);
         if (gtc == null || !gtc.enabled) return;
 
         ctx.drawTexture(texture, gtc.getX(x), gtc.getY(y), gtc.u, gtc.v, gtc.width, gtc.height, gtc.textureWidth, gtc.textureHeight);
@@ -108,7 +108,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     private int modifyRecipeBookRecenter(int original) {
         CustomizationHolder c = ScreenAccessor.getCustomizations(this);
         if (c == null) return original;
-        GuiTextureCustomization gtc = c.get(VanillaGuiCustomizations.guiTexture);
+        GuiTextureCustomization gtc = c.get(VanillaGuiModifiers.guiTexture);
         if (gtc == null || !gtc.enabled) return original;
 
         if (gtc.shiftForRecipeBook) {
@@ -122,7 +122,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     private int modifyRecipeBookRecenterAgain(int original) {
         CustomizationHolder c = ScreenAccessor.getCustomizations(this);
         if (c == null) return original;
-        GuiTextureCustomization gtc = c.get(VanillaGuiCustomizations.guiTexture);
+        GuiTextureCustomization gtc = c.get(VanillaGuiModifiers.guiTexture);
         if (gtc == null || !gtc.enabled) return original;
 
         if (gtc.shiftForRecipeBook) {
@@ -136,7 +136,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     private void modifyRecipeBookInit(Args args) {
         CustomizationHolder c = ScreenAccessor.getCustomizations(this);
         if (c == null) return;
-        GuiTextureCustomization gtc = c.get(VanillaGuiCustomizations.guiTexture);
+        GuiTextureCustomization gtc = c.get(VanillaGuiModifiers.guiTexture);
         if (gtc == null || !gtc.enabled) return;
         args.set(0, gtc.width);
         args.set(1, gtc.height);
@@ -146,7 +146,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     private void modifyOOB(double mouseX, double mouseY, int left, int top, int button, CallbackInfoReturnable<Boolean> cir) {
         CustomizationHolder c = ScreenAccessor.getCustomizations(this);
         if (c == null) return;
-        GuiTextureCustomization gtc = c.get(VanillaGuiCustomizations.guiTexture);
+        GuiTextureCustomization gtc = c.get(VanillaGuiModifiers.guiTexture);
         if (gtc == null || !gtc.enabled) return;
         boolean bl = mouseX < (double)left || mouseY < (double)top || mouseX >= (double)(left + gtc.textureWidth) || mouseY >= (double)(top + gtc.textureHeight);
         cir.setReturnValue(this.recipeBook.isClickOutsideBounds(mouseX, mouseY, this.x, this.y, gtc.textureWidth, gtc.textureHeight, button) && bl);

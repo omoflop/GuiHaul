@@ -2,17 +2,33 @@ package dev.omo.guihaul.impl.customizations;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dev.omo.guihaul.docs.WikiFieldDesc;
 import dev.omo.guihaul.util.JsonUtils;
 import net.minecraft.util.Identifier;
 
 public abstract class AbstractTextureCustomization extends AbstractPositionedCustomization {
+    @WikiFieldDesc(optional = true)
     public final int width;
+
+    @WikiFieldDesc(optional = true)
     public final int height;
+
+    @WikiFieldDesc(optional = true)
     public final int textureWidth;
+
+    @WikiFieldDesc(optional = true)
     public final int textureHeight;
+
+    @WikiFieldDesc(optional = true)
     public final int u;
+
+    @WikiFieldDesc(optional = true)
     public final int v;
+
+    @WikiFieldDesc(optional = true)
     public final Identifier texture;
+
+    @WikiFieldDesc(optional = true)
     public final boolean enabled;
 
     protected AbstractTextureCustomization(JsonElement json, int width, int height, int texWidth, int texHeight, int u, int v, Identifier texture) {

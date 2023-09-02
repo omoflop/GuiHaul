@@ -1,7 +1,8 @@
 package dev.omo.guihaul;
 
+import dev.omo.guihaul.docs.WikiGenerator;
 import dev.omo.guihaul.impl.VanillaGuiModifiers;
-import dev.omo.guihaul.impl.VanillaGuiCustomizations;
+import dev.omo.guihaul.impl.VanillaGuiTypes;
 import dev.omo.guihaul.loading.HaulResourceLoader;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -19,8 +20,11 @@ public class GuiHaulMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		VanillaGuiCustomizations.load();
 		VanillaGuiModifiers.load();
+		VanillaGuiTypes.load();
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new HaulResourceLoader());
+		if (System.getProperty("guihaul.generateWiki", "false").equals("true")) {
+			WikiGenerator.start();
+		}
 	}
 }
