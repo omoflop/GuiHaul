@@ -1,14 +1,21 @@
 package dev.omo.guihaul.mixin.screens;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.omo.guihaul.data.CustomizationHolder;
 import dev.omo.guihaul.duck.DrawContextAccessor;
+import dev.omo.guihaul.duck.ScreenAccessor;
 import dev.omo.guihaul.duck.SlotAccessor;
+import dev.omo.guihaul.impl.VanillaGuiCustomizations;
+import dev.omo.guihaul.impl.customizations.GuiTextureCustomization;
 import dev.omo.guihaul.impl.customizations.SlotCustomization;
+import dev.omo.guihaul.util.GuiAlignment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.ScreenHandlerProvider;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.util.Window;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
@@ -30,6 +37,14 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
     @Shadow @Nullable protected Slot focusedSlot;
 
     @Shadow protected abstract boolean isPointWithinBounds(int x, int y, int width, int height, double pointX, double pointY);
+
+    @Shadow protected int x;
+
+    @Shadow protected int y;
+
+    @Shadow protected int backgroundHeight;
+
+    @Shadow protected int backgroundWidth;
 
     protected HandledScreenMixin(Text title) {
         super(title);
@@ -100,5 +115,33 @@ public abstract class HandledScreenMixin<T extends ScreenHandler> extends Screen
             return;
         }
         cir.setReturnValue(this.isPointWithinBounds(slot.x, slot.y, sc.size, sc.size, pointX, pointY));
+    }
+
+    @Inject(method = "init", at = @At("TAIL"))
+    void changeCentering(CallbackInfo ci) {
+        CustomizationHolder c = ScreenAccessor.getCustomizations(this);
+        if (c == null) return;
+        GuiTextureCustomization gtc = c.get(VanillaGuiCustomizations.guiTexture);
+        if (gtc == null || gtc.alignment == GuiAlignment.none) return;
+
+
+        Window w = MinecraftClient.getInstance().getWindow();
+        GuiAlignment a = gtc.alignment;
+
+        if (a.isRight) {
+            this.x = w.getScaledWidth() - gtc.width;
+        } else if (a.isLeft) {
+            this.x = 0;
+        } else {
+            this.x = (gtc.width - gtc.textureWidth) / 2;;
+        }
+
+        if (a.isDown) {
+            this.y = w.getScaledHeight() - gtc.height;
+        } else if (a.isUp) {
+            this.y = 0;
+        } else {
+            this.y = (gtc.height - gtc.textureHeight) / 2;
+        }
     }
 }

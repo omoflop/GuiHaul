@@ -10,6 +10,7 @@ import java.util.function.Function;
 public final class JsonUtils {
     private static <T>T nothing(T value) { return value; }
     private static Identifier getAsIdentifier(JsonElement element) { return new Identifier(element.getAsString()); }
+    private static <T extends Enum<T>>T getAsEnum(Class<T> clazz, JsonElement element) { return Enum.valueOf(clazz, element.getAsString()); }
 
     public static int requireInt(JsonObject object, String key) {
         return getValue(object, key, JsonElement::getAsInt, "int");
@@ -44,6 +45,13 @@ public final class JsonUtils {
     }
     public static JsonObject optionalObject(JsonObject object, String key, JsonObject fallback) {
         return getValueOr(object, key, JsonElement::getAsJsonObject, fallback);
+    }
+
+    public static <T extends Enum<T>>T requireEnum(JsonObject object, Class<T> clazz, String key) {
+        return getValue(object, key, data -> getAsEnum(clazz, data), "identifier");
+    }
+    public static <T extends Enum<T>>T optionalEnum(JsonObject object, Class<T> clazz, String key, T fallback) {
+        return getValueOr(object, key, data -> getAsEnum(clazz, data), fallback);
     }
 
     public static JsonElement require(JsonObject object, String key) {

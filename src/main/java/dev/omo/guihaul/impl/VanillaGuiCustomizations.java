@@ -3,10 +3,8 @@ package dev.omo.guihaul.impl;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.omo.guihaul.data.CustomizationType;
-import dev.omo.guihaul.impl.customizations.BackgroundTextureCustomization;
-import dev.omo.guihaul.impl.customizations.PaperDollCustomization;
-import dev.omo.guihaul.impl.customizations.RecipeBookCustomization;
-import dev.omo.guihaul.impl.customizations.SlotCustomization;
+import dev.omo.guihaul.impl.customizations.*;
+import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.function.Predicate;
@@ -15,11 +13,13 @@ import java.util.regex.Pattern;
 import static dev.omo.guihaul.data.CustomizationTypes.register;
 
 public final class VanillaGuiCustomizations {
+    public static final Identifier INVENTORY_BACKGROUND_TEXTURE = new Identifier("textures/gui/container/inventory.png");
+
     private static final Predicate<String> intPattern = Pattern.compile("-?[0-9]+").asMatchPredicate();
     public static CustomizationType slots;
-    public static CustomizationType paperdoll;
-    public static CustomizationType recipebook;
-    public static CustomizationType backgroundtexture;
+    public static CustomizationType paperDoll;
+    public static CustomizationType recipeBook;
+    public static CustomizationType guiTexture;
 
     public static void load() {
         slots = register("slots", a -> {
@@ -49,11 +49,11 @@ public final class VanillaGuiCustomizations {
             return slots;
         });
 
-        paperdoll = register("paperdoll", PaperDollCustomization::new);
+        paperDoll = register("paper_doll", PaperDollCustomization::new);
 
-        recipebook = register("recipebook", RecipeBookCustomization::new);
+        recipeBook = register("recipe_book", RecipeBookCustomization::new);
 
-        backgroundtexture = register("backgroundtexture", BackgroundTextureCustomization::new);
+        guiTexture = register("gui_texture", data -> new GuiTextureCustomization(data, 176, 166, 256, 256, 0, 0, INVENTORY_BACKGROUND_TEXTURE));
     }
 
 }

@@ -21,4 +21,14 @@ public abstract class AbstractPositionedCustomization {
             absolute = false;
         }
     }
+
+    public int getX(int newX) {
+        if (absolute) return newX;
+        return this.x + newX;
+    }
+
+    public int getY(int newY) {
+        if (absolute) return newY;
+        return this.y + newY;
+    }
 }

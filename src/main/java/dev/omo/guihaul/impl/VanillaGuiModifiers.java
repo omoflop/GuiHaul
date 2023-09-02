@@ -32,7 +32,7 @@ public final class VanillaGuiModifiers {
     public static final Identifier stonecutter = new Identifier("minecraft:stonecutter");
 
     public static void load() {
-        register(survival_inventory,    InventoryScreen.class, new SurvivalInventoryGuiModifier(),  slots, paperdoll, recipebook, backgroundtexture);
+        register(survival_inventory,    InventoryScreen.class, new SurvivalInventoryGuiModifier(),  slots, paperDoll, recipeBook, guiTexture);
         register(inventory_creative,    CreativeInventoryScreen.class,                              slots);
         register(furnace,               FurnaceScreen.class,                                        slots);
         register(blast_furnace,         BlastFurnaceScreen.class,                                   slots);
