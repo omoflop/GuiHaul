@@ -80,4 +80,11 @@ public final class JsonUtils {
 
         return fallback;
     }
+
+    public static <T>T[] toArray(JsonArray jsonArr, T[] arr, Function<JsonElement, T> parser) {
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = parser.apply(jsonArr.get(i));
+        }
+        return arr;
+    }
 }

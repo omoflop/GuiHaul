@@ -1,6 +1,5 @@
 package dev.omo.guihaul.mixin;
 
-import dev.omo.guihaul.api.GuiModifier;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.jetbrains.annotations.Nullable;
@@ -16,8 +15,7 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "setScreen", at = @At("HEAD"))
     void modifyScreen(Screen screen, CallbackInfo ci) {
-        GuiModifier.cleanupScreen(currentScreen);
-        GuiModifier.setupScreen(screen);
+
     }
 
 

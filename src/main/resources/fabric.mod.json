@@ -20,6 +20,9 @@
 		],
 		"prelaunch": [
 			"dev.omo.guihaul.GuiHaulPreLaunch"
+		],
+		"guihaul": [
+			"dev.omo.guihaul.GuiHaulMod"
 		]
 	},
 	"mixins": [

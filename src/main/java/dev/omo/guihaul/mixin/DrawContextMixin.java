@@ -1,6 +1,6 @@
 package dev.omo.guihaul.mixin;
 
-import dev.omo.guihaul.duck.DrawContextAccessor;
+import dev.omo.guihaul.access.DrawContextAccessor;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
@@ -60,10 +60,5 @@ public class DrawContextMixin implements DrawContextAccessor {
     void resetItemBar(TextRenderer textRenderer, ItemStack stack, int x, int y, String countOverride, CallbackInfo ci) {
         if (guihaul$nextSlotSize == 0) return;
         matrices.pop();
-    }
-
-    @Override
-    public void guihaul$setNextSlotSize(int size) {
-        guihaul$nextSlotSize = size;
     }
 }
