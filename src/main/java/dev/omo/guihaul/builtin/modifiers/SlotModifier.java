@@ -1,6 +1,7 @@
 package dev.omo.guihaul.builtin.modifiers;
 
 import dev.omo.guihaul.access.SlotAccessor;
+import dev.omo.guihaul.api.WikiDesc;
 import dev.omo.guihaul.api.data.HaulModifier;
 import dev.omo.guihaul.api.Property;
 import dev.omo.guihaul.api.PropertyHolder;
@@ -9,6 +10,7 @@ import net.minecraft.screen.slot.Slot;
 
 import static dev.omo.guihaul.api.SharedProperties.*;
 
+@WikiDesc("Modifies the properties of a specified slot")
 public class SlotModifier extends HaulModifier<SlotIndexer> {
     public static final Property<Integer> SLOT_ID = Property.of("slot_id", int.class);
     public static final Property<Integer> WIDTH = Property.of("width", int.class);

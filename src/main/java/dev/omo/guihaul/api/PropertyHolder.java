@@ -56,7 +56,7 @@ public final class PropertyHolder {
         });
     }
 
-    public <T>T getProperty(Property<T> property) {
+    public @NotNull <T>T getProperty(Property<T> property) {
         if (!values.containsKey(property)) {
             GuiHaulMod.LOGGER.error("Property " + property.name + " is required, but no value was found!");
         }

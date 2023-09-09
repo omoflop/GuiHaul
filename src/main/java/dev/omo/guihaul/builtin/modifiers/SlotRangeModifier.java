@@ -1,6 +1,7 @@
 package dev.omo.guihaul.builtin.modifiers;
 
 import dev.omo.guihaul.access.SlotAccessor;
+import dev.omo.guihaul.api.WikiDesc;
 import dev.omo.guihaul.api.data.HaulModifier;
 import dev.omo.guihaul.api.Property;
 import dev.omo.guihaul.api.PropertyHolder;
@@ -11,6 +12,7 @@ import net.minecraft.util.collection.DefaultedList;
 
 import static dev.omo.guihaul.api.SharedProperties.*;
 
+@WikiDesc("Similar to [[Slot|Gui Modifiers#Slot]], but applies to a range of slots instead")
 public class SlotRangeModifier extends HaulModifier<SlotIndexer> {
     public static final Property<IntegerRange> RANGE = Property.of("range", IntegerRange.class);
     public static final Property<Integer> SPACING_X = Property.of("spacing_x", int.class);

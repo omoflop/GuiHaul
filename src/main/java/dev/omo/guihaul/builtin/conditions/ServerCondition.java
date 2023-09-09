@@ -2,17 +2,19 @@ package dev.omo.guihaul.builtin.conditions;
 
 import dev.omo.guihaul.api.Property;
 import dev.omo.guihaul.api.PropertyHolder;
+import dev.omo.guihaul.api.WikiDesc;
 import dev.omo.guihaul.api.data.HaulCondition;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ServerInfo;
 
+@WikiDesc("Tests for either/both the connected server's name and ip address")
 public class ServerCondition extends HaulCondition {
     public static final Property<String> SERVER_NAME = Property.of("name", String.class);
     public static final Property<String> SERVER_ADDRESS = Property.of("address", String.class);
 
     @Override
     public void appendProperties(PropertyHolder.Builder builder) {
-        builder.add(SERVER_NAME, null).add(SERVER_ADDRESS, null);
+        builder.add(SERVER_NAME, "").add(SERVER_ADDRESS, "");
 
     }
 
@@ -28,12 +30,15 @@ public class ServerCondition extends HaulCondition {
 
         String name = holder.getProperty(SERVER_NAME);
         String ip = holder.getProperty(SERVER_ADDRESS);
-        if (name == null && ip == null) return false;
 
-        boolean matchesName = name != null && (server.name.matches(name));
-        boolean matchesIp = ip != null && (server.address.matches(ip));
-        if (name == null) return matchesIp;
-        if (ip == null) return matchesName;
-        return matchesIp && matchesName;
+        boolean shouldCheckName = !name.isEmpty();
+        boolean shouldCheckIp = !ip.isEmpty();
+
+        if (!shouldCheckIp && !shouldCheckName)
+            return false;
+
+        boolean matchesName = shouldCheckName && (server.name.matches(name));
+        boolean matchesIp = shouldCheckIp && (server.address.matches(ip));
+        return (shouldCheckName == matchesName) && (shouldCheckIp == matchesIp);
     }
 }
