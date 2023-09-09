@@ -86,7 +86,7 @@ public final class WikiGenerator {
                 for (Identifier modifierId : HaulApi.modifierTypes.keySet()) {
                     HaulModifier<?> modifier = HaulApi.getModifier(modifierId);
                     if (Arrays.stream(matcher.getSupportedScreens()).anyMatch(modifier::isApplicableTo)) {
-                        builder.append("* `").append(modifierId).append("`\n");
+                        builder.append("* [[").append(modifierId).append("|Gui Modifiers#").append(makePretty(modifierId.getPath())).append("]]\n");
                     }
                 }
             }
