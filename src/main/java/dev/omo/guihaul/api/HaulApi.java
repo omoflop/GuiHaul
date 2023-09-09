@@ -1,6 +1,5 @@
 package dev.omo.guihaul.api;
 
-import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import dev.omo.guihaul.GuiHaulMod;
 import dev.omo.guihaul.api.data.HaulCondition;
@@ -12,14 +11,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 
 public final class HaulApi {
-    private static final HashBiMap<Identifier, HaulModifier<?>> modifierTypes = HashBiMap.create();
-    private static final HashBiMap<Identifier, HaulCondition> conditionTypes = HashBiMap.create();
-    private static final HashMap<PropertySupplier, PropertyHolder> propertyHolderTemplates = new HashMap<>();
-    private static final HashMap<Identifier, ScreenCustomizationHolder> customizations = new HashMap<>();
-    private static final HashMap<Identifier, Predicate<Screen>> screenTypeMatchers = new HashMap<>();
+    static final HashBiMap<Identifier, HaulModifier<?>> modifierTypes = HashBiMap.create();
+    static final HashBiMap<Identifier, HaulCondition> conditionTypes = HashBiMap.create();
+    static final HashMap<PropertySupplier, PropertyHolder> propertyHolderTemplates = new HashMap<>();
+    static final HashMap<Identifier, ScreenCustomizationHolder> customizations = new HashMap<>();
+    static final HashMap<Identifier, ScreenMatcher> screenTypeMatchers = new HashMap<>();
 
     public static void addCustomization(Identifier id, ScreenCustomizationHolder c) {
         customizations.put(id, c);
@@ -43,7 +41,7 @@ public final class HaulApi {
 
     public static @Nullable ScreenCustomizationHolder getCustomizations(Screen screen) {
         for (Identifier screenId : screenTypeMatchers.keySet()) {
-            if (screenTypeMatchers.get(screenId).test(screen)) {
+            if (screenTypeMatchers.get(screenId).applicableTo(screen)) {
                 return customizations.getOrDefault(screenId, null);
             }
         }
@@ -105,8 +103,8 @@ public final class HaulApi {
             tryPut(conditionTypes, "condition type", id, conditionInstance);
         }
 
-        public void addScreenMatcher(Identifier screenId, Predicate<Screen> matcher) {
-            tryPut(screenTypeMatchers, "screen matcher type", screenId, matcher);
+        public void addScreenMatcher(ScreenMatcher matcher) {
+            tryPut(screenTypeMatchers, "screen matcher type", matcher.getScreenId(), matcher);
         }
 
         private <A,B>void tryPut(Map<A, B> map, String name, A id, B obj) {

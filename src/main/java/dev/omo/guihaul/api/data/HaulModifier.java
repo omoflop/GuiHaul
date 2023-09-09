@@ -30,7 +30,13 @@ public abstract class HaulModifier<T extends ScreenIndexer> implements PropertyS
     }
 
     public boolean isApplicableTo(Object screen) {
-        return indexerClass.isAssignableFrom(screen.getClass());
+        Class<?> c;
+        if (screen instanceof Class<?> clazz) {
+            c = clazz;
+        } else {
+            c = screen.getClass();
+        }
+        return indexerClass.isAssignableFrom(c);
     }
 
     @Override

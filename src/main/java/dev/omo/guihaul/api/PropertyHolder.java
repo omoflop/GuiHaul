@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public final class PropertyHolder {
     private final HashMap<Property<?>, Object> values;
@@ -24,6 +25,14 @@ public final class PropertyHolder {
         this.values = values;
         this.requiredProperties = requiredProperties;
         this.allProperties = allProperties;
+    }
+
+    public Set<Property<?>> getRequiredProperties() {
+        return this.requiredProperties;
+    }
+
+    public Set<Property<?>> getAllProperties() {
+        return this.allProperties;
     }
 
     public PropertyHolder copy() {

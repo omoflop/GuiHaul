@@ -10,9 +10,9 @@ import net.minecraft.screen.slot.Slot;
 import static dev.omo.guihaul.api.SharedProperties.*;
 
 public class SlotModifier extends HaulModifier<SlotIndexer> {
-    public static final Property<Integer> SLOT_ID = Property.of("slot_id", Integer.class);
-    public static final Property<Integer> WIDTH = Property.of("width", Integer.class);
-    public static final Property<Integer> HEIGHT = Property.of("height", Integer.class);
+    public static final Property<Integer> SLOT_ID = Property.of("slot_id", int.class);
+    public static final Property<Integer> WIDTH = Property.of("width", int.class);
+    public static final Property<Integer> HEIGHT = Property.of("height", int.class);
 
     public SlotModifier() {
         super(SlotIndexer.class);

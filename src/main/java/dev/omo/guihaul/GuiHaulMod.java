@@ -1,6 +1,7 @@
 package dev.omo.guihaul;
 
 import dev.omo.guihaul.api.HaulApi;
+import dev.omo.guihaul.api.WikiGenerator;
 import dev.omo.guihaul.builtin.conditions.ContainerNameCondition;
 import dev.omo.guihaul.builtin.conditions.ModLoadedCondition;
 import dev.omo.guihaul.builtin.conditions.ServerCondition;
@@ -16,7 +17,7 @@ import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class GuiHaulMod implements ModInitializer, HaulApiEntrypoint {
+public class GuiHaulMod implements ModInitializer {
 	public static Identifier getId(String path) {
 		return new Identifier("guihaul", path);
 	}
@@ -41,28 +42,11 @@ public class GuiHaulMod implements ModInitializer, HaulApiEntrypoint {
 			HaulApi.printApiDebug();
 		}
 
+		if (GENERATE_WIKI) {
+			WikiGenerator.start();
+		}
+
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new ModResourceLoader());
 
-	}
-
-	private static Identifier builtin(String path) {
-		return new Identifier("builtin", path);
-	}
-
-	@Override
-	public void onInitializeApi(HaulApi.Builder builder) {
-		builder.addModifier(builtin("slot"), new SlotModifier());
-		builder.addModifier(builtin("slot_range"), new SlotRangeModifier());
-
-		builder.addCondition(builtin("mod_loaded"), new ModLoadedCondition());
-		builder.addCondition(builtin("container_name"), new ContainerNameCondition());
-		builder.addCondition(builtin("server"), new ServerCondition());
-
-		builder.addScreenMatcher(new Identifier("inventory"), screen -> screen instanceof InventoryScreen);
-	}
-
-	@Override
-	public Identifier getApiProviderName() {
-		return getId("builtin");
 	}
 }

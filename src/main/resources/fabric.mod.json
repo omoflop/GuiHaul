@@ -22,7 +22,7 @@
 			"dev.omo.guihaul.GuiHaulPreLaunch"
 		],
 		"guihaul": [
-			"dev.omo.guihaul.GuiHaulMod"
+			"dev.omo.guihaul.builtin.BuiltinApiEntrypoint"
 		]
 	},
 	"mixins": [
