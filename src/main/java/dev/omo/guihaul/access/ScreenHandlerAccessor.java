@@ -8,6 +8,7 @@ import net.minecraft.util.collection.DefaultedList;
 public interface ScreenHandlerAccessor {
     DefaultedList<Slot> guihaul$getSlots();
     ScreenHandlerType<?> guihaul$getType();
+    void guihaul$setType(ScreenHandlerType<?> type);
 
     static ScreenHandlerAccessor get(ScreenHandler obj) {
         return (ScreenHandlerAccessor) obj;

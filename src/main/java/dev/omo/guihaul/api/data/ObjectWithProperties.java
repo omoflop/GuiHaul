@@ -10,4 +10,9 @@ public class ObjectWithProperties<T> {
         this.value = object;
         this.holder = properties;
     }
+
+    @Override
+    public String toString() {
+        return "{value=" + value + ", properties=" + holder + '}';
+    }
 }

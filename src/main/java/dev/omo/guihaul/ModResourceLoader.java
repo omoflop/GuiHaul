@@ -28,7 +28,8 @@ public class ModResourceLoader implements SimpleSynchronousResourceReloadListene
             for (Identifier id : resources.keySet()) {
                 try {
                     JsonElement e = JsonParser.parseReader(new JsonReader(resources.get(id).getReader()));
-                    HaulApi.addCustomization(id, ScreenCustomizationHolder.fromJson(e));
+                    Identifier actualId = new Identifier(id.getNamespace(), id.getPath().substring(8, id.getPath().length()-5));
+                    HaulApi.addCustomization(actualId, ScreenCustomizationHolder.fromJson(e));
                 } catch (Exception any) {
                     GuiHaulMod.LOGGER.error("Encountered an error when reading file " + id, any);
                 }
@@ -36,5 +37,10 @@ public class ModResourceLoader implements SimpleSynchronousResourceReloadListene
         } catch (Exception any) {
             GuiHaulMod.LOGGER.error("Failed to load gui customizations!", any);
         }
+
+        if (GuiHaulMod.DEBUG) {
+            HaulApi.printResourcePackDebug();
+        }
+
     }
 }

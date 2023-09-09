@@ -15,6 +15,11 @@ public class Property<T> {
         this.valueClass = valueClass;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public T readValue(JsonElement json) {
         if (!parsers.containsKey(valueClass))
             throw new RuntimeException("Tried to read property value with no parser for the assigned class! Class: " + valueClass.getName());
@@ -39,6 +44,11 @@ public class Property<T> {
         registerClass(byte.class, JsonElement::getAsByte);
         registerClass(double.class, JsonElement::getAsDouble);
         registerClass(float.class, JsonElement::getAsFloat);
+        registerClass(Integer.class, JsonElement::getAsInt);
+        registerClass(Boolean.class, JsonElement::getAsBoolean);
+        registerClass(Byte.class, JsonElement::getAsByte);
+        registerClass(Double.class, JsonElement::getAsDouble);
+        registerClass(Float.class, JsonElement::getAsFloat);
         registerClass(String.class, JsonElement::getAsString);
         registerClass(IntegerRange.class, json -> IntegerRange.parse(json.getAsString()));
     }

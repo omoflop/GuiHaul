@@ -10,11 +10,32 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.Identifier;
 
 public abstract class HaulModifier<T extends ScreenIndexer> implements PropertySupplier {
+    private final Class<T> indexerClass;
+    public HaulModifier(Class<T> clazz) {
+        this.indexerClass = clazz;
+    }
+
     protected abstract void modifyScreen(PropertyHolder holder, T screen);
+    protected void cleanupScreen(PropertyHolder holder, T screen) { }
 
     @Deprecated
-    public void modifyScreenInternal(PropertyHolder holder, ScreenIndexer screenIndexer) {
-        modifyScreen(holder, (T) screenIndexer);
+    public void modifyScreenInternal(PropertyHolder holder, Object screenIndexer) {
+        if (isApplicableTo(screenIndexer))
+            modifyScreen(holder, (T) screenIndexer);
+    }
+    @Deprecated
+    public void cleanupScreenInternal(PropertyHolder holder, Object screenIndexer) {
+        if (isApplicableTo(screenIndexer))
+            cleanupScreen(holder, (T) screenIndexer);
+    }
+
+    public boolean isApplicableTo(Object screen) {
+        return indexerClass.isAssignableFrom(screen.getClass());
+    }
+
+    @Override
+    public String toString() {
+        return '\'' + HaulApi.getModifierId(this).toString() + '\'';
     }
 
     public static ObjectWithProperties<HaulModifier<?>> fromJson(JsonElement element) {

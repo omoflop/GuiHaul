@@ -8,13 +8,14 @@ import net.minecraft.util.collection.DefaultedList;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ScreenHandler.class)
 public abstract class ScreenHandlerMixin implements ScreenHandlerAccessor {
     @Shadow @Final public DefaultedList<Slot> slots;
 
-    @Shadow @Final @Nullable private ScreenHandlerType<?> type;
+    @Mutable @Shadow @Final @Nullable private ScreenHandlerType<?> type;
 
     @Override
     public DefaultedList<Slot> guihaul$getSlots() {
@@ -24,5 +25,10 @@ public abstract class ScreenHandlerMixin implements ScreenHandlerAccessor {
     @Override
     public ScreenHandlerType<?> guihaul$getType() {
         return type;
+    }
+
+    @Override
+    public void guihaul$setType(ScreenHandlerType<?> type) {
+        this.type = type;
     }
 }

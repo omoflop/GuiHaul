@@ -30,20 +30,25 @@ public final class PropertyHolder {
         return new PropertyHolder((HashMap<Property<?>, Object>) values.clone(), (HashSet<Property<?>>) requiredProperties.clone(), (HashSet<Property<?>>) allProperties.clone());
     }
 
+    @Override
+    public String toString() {
+        return values.toString();
+    }
+
     public void read(JsonObject json) {
         allProperties.forEach(p -> {
             boolean optional = !requiredProperties.contains(p);
             boolean hasValue = json.has(p.name);
             if (!optional && !hasValue) {
                 throw new RuntimeException("Required property " + p.name + " does not have a value!");
-            } else {
+            } else if (hasValue) {
                 values.put(p, p.readValue(json.get(p.name)));
             }
         });
     }
 
-    public @NotNull <T>T getProperty(Property<T> property) {
-        if (!requiredProperties.contains(property)) {
+    public <T>T getProperty(Property<T> property) {
+        if (!values.containsKey(property)) {
             GuiHaulMod.LOGGER.error("Property " + property.name + " is required, but no value was found!");
         }
         return (T) values.get(property);
@@ -53,15 +58,17 @@ public final class PropertyHolder {
         private final HashMap<Property<?>, Object> propertyDefaults = new HashMap<>();
         private final HashSet<Property<?>> requiredProperties = new HashSet<>();
 
-        public <T>void add(Property<T> property) {
+        public <T>Builder add(Property<T> property) {
             add(property, null);
+            return this;
         }
 
-        public <T>void add(Property<T> property, T defaultValue) {
+        public <T>Builder add(Property<T> property, T defaultValue) {
             if (propertyDefaults.containsKey(property) || requiredProperties.contains(property))
                 throw new RuntimeException("Tried to register a property with an existing name! Name: " + property.name);
             if (defaultValue == null) requiredProperties.add(property);
             else propertyDefaults.put(property, defaultValue);
+            return this;
         }
 
         public PropertyHolder build() {

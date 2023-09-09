@@ -3,6 +3,8 @@ package dev.omo.guihaul.api.data;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
+import java.util.Arrays;
+
 public class ScreenCustomizationHolder {
     private final ScreenCustomization[] customizations;
 
@@ -10,10 +12,17 @@ public class ScreenCustomizationHolder {
         this.customizations = customizations;
     }
 
-    public <T extends ScreenIndexer>void apply(HaulCondition.Context ctx, T screenIndexer) {
+    public void modifyScreen(HaulCondition.Context ctx, Object screenIndexer) {
         for (ScreenCustomization sc : customizations) {
             if (sc.passesConditions(ctx))
-                sc.apply(screenIndexer);
+                sc.modifyScreen(screenIndexer);
+        }
+    }
+
+    public void cleanupScreen(HaulCondition.Context ctx, Object screenIndexer) {
+        for (ScreenCustomization sc : customizations) {
+            if (sc.passesConditions(ctx))
+                sc.cleanupScreen(screenIndexer);
         }
     }
 
@@ -28,5 +37,14 @@ public class ScreenCustomizationHolder {
         } else {
             return new ScreenCustomizationHolder(new ScreenCustomization[]{ ScreenCustomization.fromJson(json.getAsJsonObject()) });
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < customizations.length; i++) {
+            builder.append(i).append(": ").append(customizations[i]);
+        }
+        return builder.toString();
     }
 }

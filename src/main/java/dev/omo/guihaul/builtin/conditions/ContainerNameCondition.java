@@ -22,6 +22,7 @@ public class ContainerNameCondition extends HaulCondition {
 
     @Override
     protected boolean passesCondition(PropertyHolder holder, Context ctx) {
-        return ctx.containerName.matches(holder.getProperty(PATTERN));
+        if (ctx.containerName() == null) return false;
+        return ctx.containerName().matches(holder.getProperty(PATTERN));
     }
 }

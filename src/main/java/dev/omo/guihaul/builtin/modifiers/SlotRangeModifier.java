@@ -6,7 +6,6 @@ import dev.omo.guihaul.api.Property;
 import dev.omo.guihaul.api.PropertyHolder;
 import dev.omo.guihaul.builtin.indexers.SlotIndexer;
 import dev.omo.guihaul.util.IntegerRange;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.collection.DefaultedList;
 
@@ -16,6 +15,10 @@ public class SlotRangeModifier extends HaulModifier<SlotIndexer> {
     public static final Property<IntegerRange> RANGE = Property.of("range", IntegerRange.class);
     public static final Property<Integer> SPACING_X = Property.of("spacing_x", int.class);
     public static final Property<Integer> SPACING_Y = Property.of("spacing_y", int.class);
+
+    public SlotRangeModifier() {
+        super(SlotIndexer.class);
+    }
 
     @Override
     public void appendProperties(PropertyHolder.Builder builder) {
@@ -32,7 +35,7 @@ public class SlotRangeModifier extends HaulModifier<SlotIndexer> {
     @Override
     protected void modifyScreen(PropertyHolder holder, SlotIndexer screen) {
         IntegerRange range = holder.getProperty(RANGE);
-        DefaultedList<Slot> slots = screen.getSlots();
+        DefaultedList<Slot> slots = screen.guiHaul$getSlots();
 
         int minX = 0;
         int minY = 0;

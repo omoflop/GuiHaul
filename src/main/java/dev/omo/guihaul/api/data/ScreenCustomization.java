@@ -4,6 +4,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dev.omo.guihaul.util.JsonUtils;
 
+import java.util.Arrays;
+
 public class ScreenCustomization {
     public final ObjectWithProperties<HaulCondition>[] conditions;
     public final ObjectWithProperties<HaulModifier<?>>[] modifiers;
@@ -21,9 +23,15 @@ public class ScreenCustomization {
         return true;
     }
 
-    public <T extends ScreenIndexer>void apply(T screenIndexer) {
+    public void modifyScreen(Object screenIndexer) {
         for (ObjectWithProperties<HaulModifier<?>> m : modifiers) {
             m.value.modifyScreenInternal(m.holder, screenIndexer);
+        }
+    }
+
+    public void cleanupScreen(Object screenIndexer) {
+        for (ObjectWithProperties<HaulModifier<?>> m : modifiers) {
+            m.value.cleanupScreenInternal(m.holder, screenIndexer);
         }
     }
 
@@ -40,5 +48,31 @@ public class ScreenCustomization {
         ObjectWithProperties<HaulModifier<?>>[] modifiers = JsonUtils.toArray(jsonModifiers, new ObjectWithProperties[jsonModifiers.size()], HaulModifier::fromJson);
 
         return new ScreenCustomization(conditions, modifiers);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("Conditions: ").append(conditions.length);
+        builder.append(", Modifiers: ").append(modifiers.length);
+
+        if (conditions.length > 0) {
+            builder.append("\n\tConditions");
+            for (int i = 0; i < conditions.length; i++) {
+                builder.append("\n\t").append(i).append(": ");
+                builder.append(conditions[i]);
+            }
+        }
+
+        if (modifiers.length > 0) {
+            builder.append("\n\tModifiers");
+            for (int i = 0; i < modifiers.length; i++) {
+                builder.append("\n\t").append(i).append(": ");
+                builder.append(modifiers[i]);
+            }
+        }
+
+        return builder.toString();
     }
 }
