@@ -71,7 +71,7 @@ public class IntegerRange implements Iterable<Integer> {
             int curMin = minSet[setIndex];
             int curMax = maxSet[setIndex];
             int curLength = curMax-curMin;
-            if (subIndex++ > curLength) {
+            if (subIndex++ > curLength-1) {
                 subIndex = 0;
                 setIndex++;
             }

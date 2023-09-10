@@ -13,6 +13,7 @@ public interface TexturedButtonWidgetAccessor {
     void guihaul$setU(int u);
     void guihaul$setV(int v);
     void guihaul$setTexture(Identifier texture);
+    Identifier guihaul$getTexture();
     void guihaul$setAlpha(float alpha);
     void guihaul$setVisible(boolean visible);
     void guihaul$setHoveredVOffset(int vOffset);

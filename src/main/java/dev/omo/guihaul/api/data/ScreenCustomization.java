@@ -29,6 +29,12 @@ public class ScreenCustomization {
         }
     }
 
+    public void modifyScreenInit(Object screenIndexer) {
+        for (ObjectWithProperties<HaulModifier<?>> m : modifiers) {
+            m.value.modifyScreenInitInternal(m.holder, screenIndexer);
+        }
+    }
+
     public void cleanupScreen(Object screenIndexer) {
         for (ObjectWithProperties<HaulModifier<?>> m : modifiers) {
             m.value.cleanupScreenInternal(m.holder, screenIndexer);

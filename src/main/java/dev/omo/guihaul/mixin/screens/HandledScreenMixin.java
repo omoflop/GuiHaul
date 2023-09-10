@@ -1,6 +1,7 @@
 package dev.omo.guihaul.mixin.screens;
 
 import dev.omo.guihaul.access.HandledScreenAccessor;
+import dev.omo.guihaul.api.HaulApi;
 import dev.omo.guihaul.builtin.indexers.SlotIndexer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;

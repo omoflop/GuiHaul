@@ -26,6 +26,13 @@ public class ScreenCustomizationHolder {
         }
     }
 
+    public void modifyScreenInit(HaulCondition.Context ctx, Object screenIndexer) {
+        for (ScreenCustomization sc : customizations) {
+            if (sc.passesConditions(ctx))
+                sc.modifyScreenInit(screenIndexer);
+        }
+    }
+
     public static ScreenCustomizationHolder fromJson(JsonElement json) {
         if (json.isJsonArray()) {
             JsonArray arr = json.getAsJsonArray();

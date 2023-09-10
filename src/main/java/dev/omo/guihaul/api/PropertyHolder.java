@@ -63,6 +63,10 @@ public final class PropertyHolder {
         return (T) values.get(property);
     }
 
+    public <T>boolean hasProperty(Property<T> property) {
+        return values.containsKey(property);
+    }
+
     public static class Builder {
         private final HashMap<Property<?>, Object> propertyDefaults = new HashMap<>();
         private final HashSet<Property<?>> requiredProperties = new HashSet<>();

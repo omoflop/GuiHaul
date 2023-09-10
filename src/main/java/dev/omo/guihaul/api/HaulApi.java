@@ -80,13 +80,30 @@ public final class HaulApi {
         GuiHaulMod.LOGGER.info(str.toString());
     }
 
-    public static void modifyScreen(Screen screen, boolean apply) {
+    public static void modifyScreen(Screen screen) {
         if (screen == null) return;
         ScreenCustomizationHolder c = HaulApi.getCustomizations(screen);
         if (c != null) {
             HaulCondition.Context ctx = HaulCondition.Context.fromScreen(screen);
-            if (apply)   c.modifyScreen(ctx, screen);
-            else        c.cleanupScreen(ctx, screen);
+            c.modifyScreen(ctx, screen);
+        }
+    }
+
+    public static void modifyScreenInit(Screen screen) {
+        if (screen == null) return;
+        ScreenCustomizationHolder c = HaulApi.getCustomizations(screen);
+        if (c != null) {
+            HaulCondition.Context ctx = HaulCondition.Context.fromScreen(screen);
+            c.modifyScreenInit(ctx, screen);
+        }
+    }
+
+    public static void cleanupScreen(Screen screen) {
+        if (screen == null) return;
+        ScreenCustomizationHolder c = HaulApi.getCustomizations(screen);
+        if (c != null) {
+            HaulCondition.Context ctx = HaulCondition.Context.fromScreen(screen);
+            c.cleanupScreen(ctx, screen);
         }
     }
 

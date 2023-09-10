@@ -7,4 +7,7 @@ import net.minecraft.util.collection.DefaultedList;
 
 public interface SlotIndexer extends ScreenIndexer {
     DefaultedList<Slot> guiHaul$getSlots();
+    default Slot getSlot(int index) {
+        return guiHaul$getSlots().get(index);
+    }
 }

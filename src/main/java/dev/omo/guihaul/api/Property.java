@@ -2,6 +2,7 @@ package dev.omo.guihaul.api;
 
 import com.google.gson.JsonElement;
 import dev.omo.guihaul.util.IntegerRange;
+import net.minecraft.util.Identifier;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -51,5 +52,6 @@ public class Property<T> {
         registerClass(Float.class, JsonElement::getAsFloat);
         registerClass(String.class, JsonElement::getAsString);
         registerClass(IntegerRange.class, json -> IntegerRange.parse(json.getAsString()));
+        registerClass(Identifier.class, json -> new Identifier(json.getAsString()));
     }
 }

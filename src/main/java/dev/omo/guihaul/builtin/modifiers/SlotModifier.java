@@ -1,10 +1,10 @@
 package dev.omo.guihaul.builtin.modifiers;
 
 import dev.omo.guihaul.access.SlotAccessor;
-import dev.omo.guihaul.api.WikiDesc;
-import dev.omo.guihaul.api.data.HaulModifier;
 import dev.omo.guihaul.api.Property;
 import dev.omo.guihaul.api.PropertyHolder;
+import dev.omo.guihaul.api.WikiDesc;
+import dev.omo.guihaul.api.data.HaulModifier;
 import dev.omo.guihaul.builtin.indexers.SlotIndexer;
 import net.minecraft.screen.slot.Slot;
 
@@ -13,11 +13,15 @@ import static dev.omo.guihaul.api.SharedProperties.*;
 @WikiDesc("Modifies the properties of a specified slot")
 public class SlotModifier extends HaulModifier<SlotIndexer> {
     public static final Property<Integer> SLOT_ID = Property.of("slot_id", int.class);
-    public static final Property<Integer> WIDTH = Property.of("width", int.class);
-    public static final Property<Integer> HEIGHT = Property.of("height", int.class);
 
+    private final Property<?> slotIndexerProperty;
     public SlotModifier() {
+        this(SLOT_ID);
+    }
+
+    public SlotModifier(Property<?> slotIndexerProperty) {
         super(SlotIndexer.class);
+        this.slotIndexerProperty = slotIndexerProperty;
     }
 
     @Override
@@ -27,12 +31,22 @@ public class SlotModifier extends HaulModifier<SlotIndexer> {
         builder.add(WIDTH, 16);
         builder.add(HEIGHT, 16);
         builder.add(ABSOLUTE, false);
-        builder.add(SLOT_ID);
+        builder.add(slotIndexerProperty);
     }
 
     @Override
-    protected void modifyScreen(PropertyHolder holder, SlotIndexer screen) {
-        Slot slot = screen.guiHaul$getSlots().get(holder.getProperty(SLOT_ID));
+    public void modifyScreen(PropertyHolder holder, SlotIndexer screen) {
+        Slot slot = screen.getSlot(holder.getProperty(SLOT_ID));
+        applySlot(holder, slot);
+    }
+
+    @Override
+    public void cleanupScreen(PropertyHolder holder, SlotIndexer screen) {
+        Slot slot = screen.getSlot(holder.getProperty(SLOT_ID));
+        resetSlot(slot);
+    }
+
+    protected void applySlot(PropertyHolder holder, Slot slot) {
         SlotAccessor sa = SlotAccessor.get(slot);
         sa.guihaul$storeState();
 
@@ -48,9 +62,7 @@ public class SlotModifier extends HaulModifier<SlotIndexer> {
         sa.guihaul$setY(y);
     }
 
-    @Override
-    protected void cleanupScreen(PropertyHolder holder, SlotIndexer screen) {
-        Slot slot = screen.guiHaul$getSlots().get(holder.getProperty(SLOT_ID));
+    protected void resetSlot(Slot slot) {
         SlotAccessor sa = SlotAccessor.get(slot);
         sa.guihaul$restoreState();
     }

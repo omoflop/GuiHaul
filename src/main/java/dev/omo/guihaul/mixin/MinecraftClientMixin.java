@@ -15,8 +15,17 @@ public abstract class MinecraftClientMixin {
     @Shadow @Nullable public Screen currentScreen;
 
     @Inject(method = "setScreen", at = @At("HEAD"))
-    void modifyScreen(Screen screen, CallbackInfo ci) {
-        HaulApi.modifyScreen(currentScreen, false);
-        HaulApi.modifyScreen(screen, true);
+    void cleanupOldScreen(Screen screen, CallbackInfo ci) {
+        HaulApi.cleanupScreen(currentScreen);
+    }
+
+    @Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/Screen;init(Lnet/minecraft/client/MinecraftClient;II)V", shift = At.Shift.AFTER))
+    void modifyNewScreenInit(Screen screen, CallbackInfo ci) {
+        HaulApi.modifyScreenInit(screen);
+    }
+
+    @Inject(method = "setScreen", at = @At("TAIL"))
+    void modifyNewScreen(Screen screen, CallbackInfo ci) {
+        HaulApi.modifyScreen(screen);
     }
 }

@@ -69,6 +69,11 @@ public class TexturedButtonWidgetMixin extends ButtonWidget implements TexturedB
     }
 
     @Override
+    public Identifier guihaul$getTexture() {
+        return this.texture;
+    }
+
+    @Override
     public void guihaul$setAlpha(float alpha) {
         this.alpha = alpha;
     }

@@ -15,9 +15,9 @@ public abstract class HaulModifier<T extends ScreenIndexer> implements PropertyS
         this.indexerClass = clazz;
     }
 
-    protected abstract void modifyScreen(PropertyHolder holder, T screen);
+    protected void modifyScreen(PropertyHolder holder, T screen) { }
     protected void cleanupScreen(PropertyHolder holder, T screen) { }
-
+    protected void modifyScreenInit(PropertyHolder holder, T screen) { }
     @Deprecated
     public void modifyScreenInternal(PropertyHolder holder, Object screenIndexer) {
         if (isApplicableTo(screenIndexer))
@@ -27,6 +27,11 @@ public abstract class HaulModifier<T extends ScreenIndexer> implements PropertyS
     public void cleanupScreenInternal(PropertyHolder holder, Object screenIndexer) {
         if (isApplicableTo(screenIndexer))
             cleanupScreen(holder, (T) screenIndexer);
+    }
+    @Deprecated
+    public void modifyScreenInitInternal(PropertyHolder holder, Object screenIndexer) {
+        if (isApplicableTo(screenIndexer))
+            modifyScreenInit(holder, (T) screenIndexer);
     }
 
     public boolean isApplicableTo(Object screen) {
