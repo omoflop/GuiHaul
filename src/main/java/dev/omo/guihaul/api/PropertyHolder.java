@@ -63,8 +63,14 @@ public final class PropertyHolder {
         return (T) values.get(property);
     }
 
-    public <T>boolean hasProperty(Property<T> property) {
-        return values.containsKey(property);
+    @SafeVarargs
+    public final <T>boolean hasProperty(Property<T>... properties) {
+        for (Property<T> property : properties) {
+            if (!values.containsKey(property)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static class Builder {

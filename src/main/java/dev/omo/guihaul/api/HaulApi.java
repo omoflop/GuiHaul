@@ -1,16 +1,23 @@
 package dev.omo.guihaul.api;
 
 import com.google.common.collect.HashBiMap;
+import com.google.gson.JsonElement;
 import dev.omo.guihaul.GuiHaulMod;
 import dev.omo.guihaul.api.data.HaulCondition;
 import dev.omo.guihaul.api.data.HaulModifier;
 import dev.omo.guihaul.api.data.ScreenCustomizationHolder;
+import dev.omo.guihaul.entry.HaulApiEntrypoint;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Pair;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public final class HaulApi {
     static final HashBiMap<Identifier, HaulModifier<?>> modifierTypes = HashBiMap.create();
@@ -108,20 +115,55 @@ public final class HaulApi {
     }
 
     public static class Builder {
+
+        final HashMap<Class<?>, WikiGenerator.PropertyDesc> propertyDescriptions = new HashMap<>();
+
         private static RuntimeException error(String name, Object id) {
             return new RuntimeException(String.format("Failed to register a %s under an existing identifier! For id: %s", name, id));
         }
 
         public <T extends HaulModifier<?>>void addModifier(Identifier id, T modifierInstance) {
-            tryPut(modifierTypes, "element type", id, modifierInstance);
+            addModifier(id, modifierInstance, null);
         }
 
         public <T extends HaulCondition>void addCondition(Identifier id, T conditionInstance) {
-            tryPut(conditionTypes, "condition type", id, conditionInstance);
+            addCondition(id, conditionInstance, null);
         }
 
         public void addScreenMatcher(ScreenMatcher matcher) {
+            addScreenMatcher(matcher, null);
+        }
+
+        public <T>void addPropertyTypeHandler(Class<T> type, Function<JsonElement, T> parser) {
+            addPropertyTypeHandler(type, parser, null);
+        }
+
+        public <T extends HaulModifier<?>>void addModifier(Identifier id, T modifierInstance, @Nullable String wikiDesc) {
+            tryPut(modifierTypes, "element type", id, modifierInstance);
+            if (GuiHaulMod.GENERATE_WIKI && wikiDesc != null) {
+                WikiGenerator.modifierDescriptions.put(id, wikiDesc);
+            }
+        }
+
+        public <T extends HaulCondition>void addCondition(Identifier id, T conditionInstance, @Nullable String wikiDesc) {
+            tryPut(conditionTypes, "condition type", id, conditionInstance);
+            if (GuiHaulMod.GENERATE_WIKI && wikiDesc != null) {
+                WikiGenerator.conditionDescriptions.put(id, wikiDesc);
+            }
+        }
+
+        public void addScreenMatcher(ScreenMatcher matcher, @Nullable String wikiDesc) {
             tryPut(screenTypeMatchers, "screen matcher type", matcher.getScreenId(), matcher);
+            if (GuiHaulMod.GENERATE_WIKI && wikiDesc != null) {
+                WikiGenerator.screenDescriptions.put(matcher.getScreenId(), wikiDesc);
+            }
+        }
+
+        public <T>void addPropertyTypeHandler(Class<T> type, Function<JsonElement, T> parser, @Nullable String wikiDesc, @Nullable String... examples) {
+            Property.registerClass(type, parser);
+            if (GuiHaulMod.GENERATE_WIKI && wikiDesc != null) {
+                propertyDescriptions.put(type, new WikiGenerator.PropertyDesc(wikiDesc, examples));
+            }
         }
 
         private <A,B>void tryPut(Map<A, B> map, String name, A id, B obj) {
@@ -129,6 +171,14 @@ public final class HaulApi {
                 throw error(name, id);
 
             map.put(id, obj);
+        }
+
+        // Don't call this!
+        @Deprecated
+        public void build(HaulApiEntrypoint entrypoint) {
+            if (GuiHaulMod.GENERATE_WIKI) {
+                WikiGenerator.propertyDescriptions.put(entrypoint.getApiProviderName(), propertyDescriptions);
+            }
         }
     }
 

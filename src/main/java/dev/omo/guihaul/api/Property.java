@@ -33,7 +33,7 @@ public class Property<T> {
 
     private static final HashMap<Class<?>, Function<JsonElement, ?>> parsers = new HashMap<>();
 
-    public static <T>void registerClass(Class<T> clazz, Function<JsonElement, T> parser) {
+    static <T>void registerClass(Class<T> clazz, Function<JsonElement, T> parser) {
         if (parsers.containsKey(clazz))
             throw new RuntimeException("Tried to register a property class parser for an existing class! Class: " + clazz.getName());
         parsers.put(clazz, parser);
@@ -51,7 +51,5 @@ public class Property<T> {
         registerClass(Double.class, JsonElement::getAsDouble);
         registerClass(Float.class, JsonElement::getAsFloat);
         registerClass(String.class, JsonElement::getAsString);
-        registerClass(IntegerRange.class, json -> IntegerRange.parse(json.getAsString()));
-        registerClass(Identifier.class, json -> new Identifier(json.getAsString()));
     }
 }

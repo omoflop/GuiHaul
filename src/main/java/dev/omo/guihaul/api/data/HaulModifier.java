@@ -18,6 +18,8 @@ public abstract class HaulModifier<T extends ScreenIndexer> implements PropertyS
     protected void modifyScreen(PropertyHolder holder, T screen) { }
     protected void cleanupScreen(PropertyHolder holder, T screen) { }
     protected void modifyScreenInit(PropertyHolder holder, T screen) { }
+
+    // Java generic weirdness. You shouldn't need to call these methods anyway
     @Deprecated
     public void modifyScreenInternal(PropertyHolder holder, Object screenIndexer) {
         if (isApplicableTo(screenIndexer))

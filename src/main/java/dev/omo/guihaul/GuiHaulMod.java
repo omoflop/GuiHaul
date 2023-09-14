@@ -33,6 +33,7 @@ public class GuiHaulMod implements ModInitializer {
 		for (HaulApiEntrypoint entrypoint : FabricLoader.getInstance().getEntrypoints("guihaul", HaulApiEntrypoint.class)) {
 			try {
 				entrypoint.onInitializeApi(builder);
+				builder.build(entrypoint);
 			} catch (Exception e) {
 				LOGGER.error("Failed to load entrypoint for mod {}, reason: {}", entrypoint.getApiProviderName(), e);
 			}

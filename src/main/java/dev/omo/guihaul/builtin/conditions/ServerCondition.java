@@ -2,12 +2,10 @@ package dev.omo.guihaul.builtin.conditions;
 
 import dev.omo.guihaul.api.Property;
 import dev.omo.guihaul.api.PropertyHolder;
-import dev.omo.guihaul.api.WikiDesc;
 import dev.omo.guihaul.api.data.HaulCondition;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ServerInfo;
 
-@WikiDesc("Tests for either/both the connected server's name and ip address")
 public class ServerCondition extends HaulCondition {
     public static final Property<String> SERVER_NAME = Property.of("name", String.class);
     public static final Property<String> SERVER_ADDRESS = Property.of("address", String.class);
