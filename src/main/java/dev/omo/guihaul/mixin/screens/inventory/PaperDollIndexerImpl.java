@@ -1,4 +1,4 @@
-package dev.omo.guihaul.mixin.screens;
+package dev.omo.guihaul.mixin.screens.inventory;
 
 import dev.omo.guihaul.builtin.indexers.PaperDollIndexer;
 import net.minecraft.client.gui.DrawContext;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(InventoryScreen.class)
-public abstract class InventoryScreenMixin extends AbstractInventoryScreen<PlayerScreenHandler> implements PaperDollIndexer {
+public abstract class PaperDollIndexerImpl extends AbstractInventoryScreen<PlayerScreenHandler> implements PaperDollIndexer {
     @Unique private int xOverride;
     @Unique private int yOverride;
     @Unique private int size;
@@ -25,7 +25,7 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     @Unique private boolean isPositionOverridden;
     @Unique private static boolean skipNextPaperDollRender;
 
-    public InventoryScreenMixin(PlayerScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
+    public PaperDollIndexerImpl(PlayerScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
         super(screenHandler, playerInventory, text);
     }
 
@@ -51,36 +51,36 @@ public abstract class InventoryScreenMixin extends AbstractInventoryScreen<Playe
     }
 
     @Override
-    public void guiHaul$setPos(int x, int y) {
+    public void guiHaul$setPaperDollPos(int x, int y) {
         isPositionOverridden = true;
         xOverride = x;
         yOverride = y;
     }
 
     @Override
-    public void guiHaul$setSize(int size) {
+    public void guiHaul$setPaperDollSize(int size) {
         this.size = size;
     }
 
     @Override
-    public int guiHaul$getX() {
+    public int guiHaul$getPaperDollX() {
         if (!isPositionOverridden) return x + 51;
         return xOverride;
     }
 
     @Override
-    public int guiHaul$getY() {
+    public int guiHaul$getPaperDollY() {
         if (!isPositionOverridden) return y + 75;
         return yOverride;
     }
 
     @Override
-    public void guiHaul$setVisible(boolean visible) {
+    public void guiHaul$setPaperDollVisible(boolean visible) {
         this.visible = visible;
     }
 
     @Override
-    public void guiHaul$reset() {
+    public void guiHaul$paperDollReset() {
         isPositionOverridden = false;
         xOverride = 0;
         yOverride = 0;

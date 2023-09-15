@@ -8,6 +8,7 @@ public interface SlotAccessor {
 
     void guihaul$storeState();
     void guihaul$restoreState();
+    boolean guihaul$isModified();
 
     static SlotAccessor get(Slot obj) {
         return (SlotAccessor) obj;

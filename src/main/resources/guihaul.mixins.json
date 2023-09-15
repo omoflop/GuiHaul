@@ -6,15 +6,19 @@
     "MinecraftClientMixin",
     "ScreenHandlerMixin",
     "SlotMixin",
-    "screens.HandledScreenMixin"
+    "screens.HandledScreenMixin",
+    "screens.inventory.ScreenBackgroundIndexerImpl"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
     "DrawContextMixin",
-    "screens.InventoryScreenMixin",
+    "KeyboardMixin",
     "screens.ScreenMixin",
+    "screens.handledscreen.HandledScreenIndexerImpl",
+    "screens.handledscreen.SlotIndexerImpl",
+    "screens.inventory.PaperDollIndexerImpl",
     "widget.TexturedButtonWidgetMixin"
   ]
 }

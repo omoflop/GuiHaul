@@ -37,4 +37,9 @@ public class SlotMixin implements SlotAccessor {
         y = yStart;
         stateStored = false;
     }
+
+    @Override
+    public boolean guihaul$isModified() {
+        return stateStored;
+    }
 }

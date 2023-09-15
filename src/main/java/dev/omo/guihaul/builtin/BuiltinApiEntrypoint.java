@@ -38,6 +38,12 @@ public class BuiltinApiEntrypoint implements HaulApiEntrypoint {
         builder.addModifier(builtin("paper_doll"), new PaperDollModifier(),
                 "Modifies the position, size, and visibility of the paper doll seen in the inventory"
         );
+        builder.addModifier(builtin("screen_properties"), new ScreenPropertiesModifier(),
+                "Modifies the position, size, and visibility a screen and it's background size"
+        );
+        builder.addModifier(builtin("background"), new ScreenBackgroundModifier(),
+                "Modifies the texture, uv, and position of a screen's background"
+        );
 
         // ============================== CONDITIONS ============================== //
         builder.addCondition(builtin("mod_loaded"), new ModLoadedCondition(),

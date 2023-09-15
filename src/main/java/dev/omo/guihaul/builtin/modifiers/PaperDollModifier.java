@@ -23,18 +23,23 @@ public class PaperDollModifier extends HaulModifier<PaperDollIndexer> {
     @Override
     protected void modifyScreen(PropertyHolder holder, PaperDollIndexer screen) {
         boolean visible = holder.getProperty(VISIBLE);
-        screen.guiHaul$setVisible(visible);
+        screen.guiHaul$setPaperDollVisible(visible);
         if (!visible) return;
 
         int x = holder.getProperty(X);
         int y = holder.getProperty(Y);
 
         if (!holder.getProperty(ABSOLUTE)) {
-            x += screen.guiHaul$getX();
-            y += screen.guiHaul$getY();
+            x += screen.guiHaul$getPaperDollX();
+            y += screen.guiHaul$getPaperDollY();
         }
 
-        screen.guiHaul$setPos(x, y);
-        screen.guiHaul$setSize(holder.getProperty(SIZE));
+        screen.guiHaul$setPaperDollPos(x, y);
+        screen.guiHaul$setPaperDollSize(holder.getProperty(SIZE));
+    }
+
+    @Override
+    protected void cleanupScreen(PropertyHolder holder, PaperDollIndexer screen) {
+        screen.guiHaul$paperDollReset();
     }
 }

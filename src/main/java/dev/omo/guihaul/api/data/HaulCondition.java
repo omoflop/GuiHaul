@@ -2,10 +2,10 @@ package dev.omo.guihaul.api.data;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dev.omo.guihaul.access.HandledScreenAccessor;
 import dev.omo.guihaul.api.HaulApi;
 import dev.omo.guihaul.api.PropertyHolder;
 import dev.omo.guihaul.api.PropertySupplier;
+import dev.omo.guihaul.builtin.indexers.HandledScreenIndexer;
 import dev.omo.guihaul.util.JsonUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.gui.screen.Screen;
@@ -59,7 +59,7 @@ public abstract class HaulCondition implements PropertySupplier {
 
             if (screen instanceof HandledScreen<?> handledScreen) {
                 containerName = handledScreen.getTitle().getString();
-                playerInventory = HandledScreenAccessor.get(handledScreen).guihaul$getInventory();
+                playerInventory = ((HandledScreenIndexer)handledScreen).guihaul$getInventory();
                 if (playerInventory.player instanceof ClientPlayerEntity clientPlayerEntity) {
                     player = clientPlayerEntity;
                     world = clientPlayerEntity.clientWorld;

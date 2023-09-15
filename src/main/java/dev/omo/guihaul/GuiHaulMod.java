@@ -18,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GuiHaulMod implements ModInitializer {
+	public static boolean SHOW_SLOT_IDS = false;
+
 	public static Identifier getId(String path) {
 		return new Identifier("guihaul", path);
 	}
